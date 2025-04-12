@@ -1,113 +1,161 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include "playlist.h"
 
-
-// Inicialização e finalização
-Playlist* criar_playlist(){
-    Playlist* playlist= (Playlist*) malloc(sizeof(Playlist));
+// Inicialização e finalização - ok
+Playlist *criar_playlist()
+{
+    Playlist *playlist = (Playlist *)malloc(sizeof(Playlist));
     playlist->atual = NULL;
     playlist->modo_repeticao = 1;
-    playlist->tamanho = 0
-    
+    playlist->tamanho = 0;
+
     return playlist;
 }
-void liberar_playlist(Playlist* playlist){
 
-    if(playlist->atual == NULL){
-        free(lista);
+// ok
+void liberar_playlist(Playlist *playlist)
+{
+
+    if (playlist->atual == NULL)
+    {
+        free(playlist);
         return;
     }
 
-    Musica* atual = playlist->atual->proxima_musica;
-    Musica* temp;
+    Musica *atual = playlist->atual->proxima;
+    Musica *temp;
 
-    do{
+    do
+    {
         temp = atual;
         atual = atual->proxima;
         free(temp);
-    }while(atual != playlist->atual->proxima);
+    } while (atual != playlist->atual->proxima);
 
-    free(lista);
-
+    playlist->atual = NULL;
+    playlist->tamanho = 0;
+    playlist->modo_repeticao = 0;
 }
 
-// Gerenciamento de músicas
-void adicionar_musica(Playlist* playlist, const char* titulo, const char* artista, int duracao){
-    
-    // disponibilizar memoria
-    Musica* novo = (Musica*) malloc(sizeof(Musica));
+// Gerenciamento de músicas - ok
+void adicionar_musica(Playlist *playlist, const char *titulo, const char *artista, int duracao)
+{
 
-    //adc dados da musica
+    // disponibilizar memoria
+    Musica *novo = (Musica *)malloc(sizeof(Musica));
+
+    // adc dados da musica
     strcpy(novo->titulo, titulo);
     strcpy(novo->artista, artista);
     novo->duracao = duracao;
 
-    if(playlist->atual == NULL){
-        novo->proximo = novo;
-        playlist-atual = novo;
-    }else{
-        novo->proximo = playlist->atual->proximo;
-        playlist->atual->proximo = novo;
+    if (playlist->atual == NULL)
+    {
+        novo->proxima = novo;
+        playlist->atual = novo;
+    }
+    else
+    {
+        novo->proxima = playlist->atual->proxima;
+        playlist->atual->proxima = novo;
     }
 }
-int remover_musica(Playlist* playlist, const char* titulo){
+// int remover_musica(Playlist *playlist, const char *titulo)
+// {
+//     return 0;
+//     //encontrar musica
+//     Musica *remover = remover_musica(playlist, titulo);
 
-    remover = buscar_musica(playlist,titulo);
+//     //salvar proximo de remover
+//     Musica *proxima_musica = remover->proxima;
 
-    if(remover){
-        
-    }
-}
+//     //encontrar anterior
+//     Musica *temp = proxima_musica;
+//     Musica *atual = temp;
+//     Musica *anterior = NULL;
+//     do{
+
+//     }while(atual != remover);
+
+//      //remover
+
+//      //ligar anterior com proximo da musica removida
+
+// }
 
 // Navegação
 
-void proxima_musica(Playlist* playlist);
-void musica_anterior(Playlist* playlist);
+void proxima_musica(Playlist *playlist)
+{
+    printf("Titulo: %s\n", playlist->atual->proxima);
+}
+void musica_anterior(Playlist *playlist)
+{
+    if (playlist->atual != NULL)
+    {
+        Musica *temp = playlist->atual->proxima; // comeco da lista
+        Musica *inicio = temp;
+
+        do
+        {
+
+        } while (temp != inicio);
+    }
+}
 
 // Configuração
 
-void alternar_modo_repeticao(Playlist* playlist){
-    !Playlist->modo_repeticao;   
+void alternar_modo_repeticao(Playlist *playlist)
+{
+    !playlist->modo_repeticao;
 }
 
-// Visualização
-
-void listar_musicas(Playlist* playlist){
-    if(playlist->atual == NULL){
+// Visualização - ok
+void listar_musicas(Playlist *playlist)
+{
+    if (playlist->atual == NULL)
+    {
         printf("Playlist Vazia.\n");
         return;
     }
 
-    Musica* atual = playlist->atual->proxima;
+    Musica *atual = playlist->atual->proxima;
 
-    printf("===========Playlist================")
+    printf("===========Playlist================\n");
 
-    do{
-        printf("Titulo: %s\nArtista: %s\nDuracao:%d\n",
-        atual->titulo,
-        atual->artista,
-        atual->duracao);
+    do
+    {
+        printf("Titulo: %s\nArtista: %s\nDuracao: %d\n",
+               atual->titulo,
+               atual->artista,
+               atual->duracao);
 
-        atual = atual->proximo;
-    }while(atual != playlist->atual->proximo);
+        atual = atual->proxima;
+    } while (atual != playlist->atual->proxima);
 
-    printf("====================================");
+    printf("===================================\n");
 }
-Musica* buscar_musica(Playlist* playlist, const char* titulo){
 
-    Musica* atual = playlist->atual;
+//ok
+Musica *buscar_musica(Playlist *playlist, const char *titulo)
+{
+
+    Musica *atual = playlist->atual;
 
     while (atual != NULL)
     {
-        if(strcmp(atual->titulo, titulo) == 0){
+        if (strcmp(atual->titulo, titulo) == 0)
+        {
             return atual;
         }
-       
-        atual = atual->proximo;
+
+        atual = atual->proxima;
     }
 
     return NULL;
-    
 }
-void exibir_musica_atual(Playlist* playlist);
+void exibir_musica_atual(Playlist *playlist)
+{
+}
